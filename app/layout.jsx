@@ -10,7 +10,7 @@ export const metadata = {
     template: "%s | Mii Shoppe",
   },
   description:
-    "A neighborhood-first grocery retailer improving food access in underserved communities.",
+    "A neighborhood-first grocery retailer improving food access in underserved communities",
   keywords: [
     "Mii Shoppe",
     "neighborhood grocery",
