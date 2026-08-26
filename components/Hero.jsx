@@ -23,20 +23,21 @@ export default function Hero() {
             scale: 1,
             opacity: 1,
             duration: 1.1,
-            ease: "back.out(1.5)", // zooms out toward normal size, slightly overshoots, settles back in
+            ease: "back.out(1.5)",
+            overwrite: "auto", // kill/replace any in-flight tween on this target instead of stacking
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top 80%",
               end: "bottom top",
-              // restart on the way down (onEnter) AND on the way back up (onEnterBack) —
-              // replays the zoom every time the section comes into view, either direction
               toggleActions: "restart none restart none",
+              fastScrollEnd: true,   // if the user (or a programmatic jump) blows past this trigger quickly, resolve it immediately instead of queuing a full replay
+              preventOverlaps: true, // don't let this tween collide with another one firing on the same target a moment later
+              invalidateOnRefresh: true,
             },
           }
         );
       });
 
-      // Reduced motion: skip straight to resting state
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set(headingRef.current, { scale: 1, opacity: 1 });
       });
@@ -44,7 +45,14 @@ export default function Hero() {
       return () => mm.revert();
     }, sectionRef);
 
-    return () => ctx.revert();
+    // Re-sync ScrollTrigger's measurements after mount/layout settles
+    // (images, fonts, and Lenis's own init can all shift positions after first paint)
+    const refreshId = requestAnimationFrame(() => ScrollTrigger.refresh());
+
+    return () => {
+      cancelAnimationFrame(refreshId);
+      ctx.revert();
+    };
   }, []);
 
   return (
