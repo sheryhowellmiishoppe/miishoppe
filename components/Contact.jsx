@@ -116,7 +116,7 @@ function CategoryRow({ item, index }) {
 
 export default function ContactSection() {
   return (
-    <section className="scroll-mt-[90px] mb-12 py-16">
+    <section className=" mb-20 py-16">
       <div className="mx-auto max-w-[1120px] px-6 max-sm:px-[18px]">
         <div className="grid grid-cols-[1fr_1.1fr] gap-14 max-sm:grid-cols-1 max-sm:gap-8">
           {/* Left: intro + categories */}
