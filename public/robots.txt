@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://miishoppe.com/sitemap.xml
+Sitemap: https://www.miishoppe.com/sitemap.xml
