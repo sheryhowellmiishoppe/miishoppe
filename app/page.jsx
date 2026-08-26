@@ -43,7 +43,7 @@ export default function HomePage() {
         </ScrollReveal>
 
         <div id="contact" className="scroll-mt-[90px]" />
-        <ScrollReveal direction="up">
+        <ScrollReveal direction="right">
           <ContactSection />
         </ScrollReveal>
         <div id="waitlist" className="scroll-mt-[90px]" />
