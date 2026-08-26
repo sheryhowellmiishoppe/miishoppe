@@ -143,7 +143,7 @@ export default function ContactSection() {
 
           {/* Right: contact card */}
           <RevealBlock delay={150}>
-            <div className="sticky top-24 rounded-[14px] bg-[#476036] p-9 text-white max-sm:static max-sm:p-7">
+            <div className=" rounded-[14px] bg-[#476036] p-9 text-white max-sm:static max-sm:p-7">
               <p className="text-[13px] font-bold uppercase tracking-[.08em] text-[#a7c96b]">
                 Contact Mii Shoppe
               </p>
