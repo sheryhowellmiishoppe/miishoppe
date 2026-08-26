@@ -1,7 +1,7 @@
 import "./globals.css";
 import SmoothScroll from "../components/SmoothScroll";
 
-const siteUrl = "https://miishoppe.com";
+const siteUrl = "https://www.miishoppe.com";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),

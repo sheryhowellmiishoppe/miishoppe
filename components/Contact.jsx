@@ -51,45 +51,37 @@ const icons = {
   ),
 };
 
-function useReveal(threshold = 0.2) {
+// Single observer for the ENTIRE section. Fires once, then locks true forever —
+// it can never toggle back off, so a fast/jittery scroll position can't
+// re-trigger or flicker it.
+function useRevealOnce(threshold = 0.15) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect(); // done — no more observing needed
+        }
       },
-      { threshold },
+      { threshold, rootMargin: "0px 0px -10% 0px" },
     );
-    if (ref.current) observer.observe(ref.current);
+
+    observer.observe(el);
     return () => observer.disconnect();
   }, [threshold]);
 
   return { ref, visible };
 }
 
-function RevealBlock({ children, delay = 0, className = "" }) {
-  const { ref, visible } = useReveal();
+function CategoryRow({ item, index, visible }) {
   return (
     <div
-      ref={ref}
-      style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
-      className={`opacity-0 translate-y-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-        visible ? "opacity-100 translate-y-0" : ""
-      } ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-function CategoryRow({ item, index }) {
-  const { ref, visible } = useReveal(0.25);
-
-  return (
-    <div
-      ref={ref}
       style={{ transitionDelay: visible ? `${index * 90}ms` : "0ms" }}
       className={`group flex items-start gap-5 border-t border-[#e7e9e5] py-6 opacity-0 -translate-x-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] first:border-t-0 max-sm:gap-3.5 max-sm:py-5 ${
         visible ? "opacity-100 translate-x-0" : ""
@@ -115,13 +107,19 @@ function CategoryRow({ item, index }) {
 }
 
 export default function ContactSection() {
+  const { ref, visible } = useRevealOnce();
+
   return (
-    <section className=" mb-20 py-16">
+    <section ref={ref} className="mb-20 py-16">
       <div className="mx-auto max-w-[1120px] px-6 max-sm:px-[18px]">
         <div className="grid grid-cols-[1fr_1.1fr] gap-14 max-sm:grid-cols-1 max-sm:gap-8">
           {/* Left: intro + categories */}
           <div>
-            <RevealBlock>
+            <div
+              className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+            >
               <p className="text-[14px] font-bold uppercase tracking-[.08em] text-[#779f2d]">
                 Contact Us
               </p>
@@ -132,18 +130,23 @@ export default function ContactSection() {
                 Have a question, need assistance, or want to learn more about
                 Mii Shoppe? Our team is here to help.
               </p>
-            </RevealBlock>
+            </div>
 
             <div className="mt-8">
               {categories.map((item, i) => (
-                <CategoryRow key={item.title} item={item} index={i} />
+                <CategoryRow key={item.title} item={item} index={i} visible={visible} />
               ))}
             </div>
           </div>
 
           {/* Right: contact card */}
-          <RevealBlock delay={150}>
-            <div className=" rounded-[14px] bg-[#476036] p-9 text-white max-sm:static max-sm:p-7">
+          <div
+            style={{ transitionDelay: visible ? "150ms" : "0ms" }}
+            className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+          >
+            <div className="rounded-[14px] bg-[#476036] p-9 text-white max-sm:static max-sm:p-7">
               <p className="text-[13px] font-bold uppercase tracking-[.08em] text-[#a7c96b]">
                 Contact Mii Shoppe
               </p>
@@ -151,10 +154,10 @@ export default function ContactSection() {
                 Email all inquiries to:
               </p>
 
-              <a
+              
                 href="mailto:support@miishoppe.com"
                 className="group mt-6 flex items-center justify-between gap-3 rounded-full bg-white px-6 py-4 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(0,0,0,.18)] max-sm:px-5 max-sm:py-3.5"
-              >
+              <a>
                 <span className="truncate font-display text-[16px] font-extrabold text-[#242424] max-sm:text-[13.5px]">
                   support@miishoppe.com
                 </span>
@@ -175,7 +178,7 @@ export default function ContactSection() {
                 </p>
               </div>
             </div>
-          </RevealBlock>
+          </div>
         </div>
       </div>
     </section>
