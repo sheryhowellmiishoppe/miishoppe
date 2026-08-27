@@ -71,9 +71,7 @@ export default function Hero() {
             <span className="block text-[#779f2d]">Within Reach.</span>
           </h1>
           <p className="mt-6 max-w-[480px] text-[16px] leading-[1.65] text-[#5b6660] max-sm:mt-4 max-sm:text-[15px] max-sm:leading-[1.6]">
-            A neighborhood-first, technology-enabled grocery retailer built
-            around curbside, pickup, and delivery services to improve food
-            access in underserved communities.
+            A neighborhood-first grocery fulfillment center, technology-enabled and built around curbside pickup and delivery to improve food access in underserved communities.
           </p>
           <div className="mt-8 max-sm:mt-6">
             <Button>JOIN THE WAITLIST</Button>
