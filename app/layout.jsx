@@ -13,6 +13,9 @@ export const metadata = {
     "A neighborhood-first grocery retailer improving food access in underserved communities.",
   keywords: [
     "Mii Shoppe",
+    "miishoppe",
+    "Miishoppe",
+    "MiiShoppe",
     "neighborhood grocery",
     "food access",
     "Cleveland grocery",

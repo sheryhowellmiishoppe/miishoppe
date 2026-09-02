@@ -4,10 +4,10 @@ export default function CustomersSection() {
   const carouselSlides = [
     "/carousel/1.jfif",
     "/carousel/2.jfif",
-    "/carousel/3.jfif",
-    "/carousel/4.jfif",
+    "/carousel/3.jpg",
+    "/carousel/4.jpg",
     "/carousel/5.jfif",
-    "/carousel/3.png",
+    "/carousel/2.jpg",
   ];
 
   return (
